@@ -13,11 +13,12 @@ func main() {
 	z.GET("/hello", func(c *zed.Context) {
 		c.String(http.StatusOK, "hello %s,you're at %s\n", c.Query("name"), c.Path)
 	})
-	z.POST("/login", func(c *zed.Context) {
-		c.JSON(http.StatusOK, zed.H{
-			"username": c.PostForm("username"),
-			"password": c.PostForm("password"),
-		})
+	z.GET("/hello/:name", func(c *zed.Context) {
+		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Param("name"), c.Path)
+	})
+
+	z.GET("/assets/*filepath", func(c *zed.Context) {
+		c.JSON(http.StatusOK, zed.H{"filepath": c.Param("filepath")})
 	})
 	z.Run(":9999")
 }

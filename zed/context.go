@@ -13,9 +13,9 @@ type Context struct {
 	Writer http.ResponseWriter
 	Req    *http.Request
 
-	Method string
-	Path   string
-
+	Method     string
+	Path       string
+	Params     map[string]string
 	StatusCode int
 }
 
@@ -70,4 +70,9 @@ func (c *Context) HTML(code int, html string) {
 	c.SetHeader("Content-Type", "text/html")
 	c.Status(code)
 	c.Writer.Write([]byte(html))
+}
+
+func (c *Context) Param(key string) string {
+	value, _ := c.Params[key]
+	return value
 }
