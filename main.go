@@ -1,6 +1,9 @@
 package main
 
-import "zed"
+import (
+	"net/http"
+	"zed"
+)
 
 func main() {
 	//z := zed.New()
@@ -50,8 +53,19 @@ func main() {
 	//}
 	//
 	//z.Run(":9999")
+	//
+	//z := zed.New()
+	//z.Static("/asserts", "/usr/zed/blog/static")
+	//z.Run(":9999")
+	z := zed.Default()
+	z.GET("/", func(c *zed.Context) {
+		c.String(http.StatusOK, "Hello Geektutu\n")
+	})
+	// index out of range for testing Recovery()
+	z.GET("/panic", func(c *zed.Context) {
+		names := []string{"geektutu"}
+		c.String(http.StatusOK, names[100])
+	})
 
-	z := zed.New()
-	z.Static("/asserts", "/usr/zed/blog/static")
 	z.Run(":9999")
 }
